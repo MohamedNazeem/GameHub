@@ -3,10 +3,10 @@ import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import PlatformSelector from "./components/PlatformSelector";
+import SortSelector from "./components/SortSelector";
 import NavBar from "./components/NavBar";
 import { Genre } from "./hooks/useGenres";
 import { Platform } from "./hooks/useGames";
-import SortSelector from "./components/SortSelector";
 
 export interface GameQuery {
   genre: Genre | null;
