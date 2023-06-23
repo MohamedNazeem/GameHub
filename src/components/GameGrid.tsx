@@ -1,4 +1,4 @@
-import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Center, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
 import { GameQuery } from "../App";
@@ -21,6 +21,11 @@ const GameGrid = ({ gameQuery }: Props) => {
         />
       )}
       {errors && <Text>{errors}</Text>}
+      {games.length == 0 && (
+        <Text fontSize="2xl" fontWeight="bold" paddingTop="15rem">
+          Oopss no games found :/
+        </Text>
+      )}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
         spacing={10}
