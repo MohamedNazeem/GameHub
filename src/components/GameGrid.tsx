@@ -1,4 +1,11 @@
-import { Alert, AlertIcon, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  SimpleGrid,
+  Spinner,
+} from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
 import { GameQuery } from "../App";
@@ -8,10 +15,17 @@ interface Props {
 }
 
 const GameGrid = ({ gameQuery }: Props) => {
-  const { data: games, error, isLoading } = useGames(gameQuery);
+  const {
+    data: games,
+    error,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useGames(gameQuery);
 
   return (
-    <div>
+    <Box padding="10px">
       {isLoading && (
         <Spinner
           thickness="4px"
@@ -29,22 +43,25 @@ const GameGrid = ({ gameQuery }: Props) => {
         </Alert>
       )}
 
-      {games?.results.length == 0 && !isLoading && (
-        <Text fontSize="2xl" fontWeight="bold" paddingTop="15rem">
-          Oopss no games found :/
-        </Text>
-      )}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
         spacing={10}
-        padding="10px"
         margin={3}
       >
-        {games?.results.map((game) => (
-          <GameCard key={game.id} game={game} />
+        {games?.pages.map((page) => (
+          <>
+            {page.results.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </>
         ))}
       </SimpleGrid>
-    </div>
+      {hasNextPage && (
+        <Button onClick={() => fetchNextPage()} marginY={5}>
+          {isFetchingNextPage ? "Loading..." : "Load More"}
+        </Button>
+      )}
+    </Box>
   );
 };
 
