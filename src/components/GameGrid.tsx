@@ -8,10 +8,10 @@ interface Props {
 }
 
 const GameGrid = ({ gameQuery }: Props) => {
-  const { games, errors, loading } = useGames(gameQuery);
+  const { data: games, error, isLoading } = useGames(gameQuery);
   return (
     <div>
-      {loading && (
+      {isLoading && (
         <Spinner
           thickness="4px"
           speed="0.65s"
@@ -20,8 +20,8 @@ const GameGrid = ({ gameQuery }: Props) => {
           size="xl"
         />
       )}
-      {errors && <Text>{errors}</Text>}
-      {games.length == 0 && (
+      {error && <Text>{error.message}</Text>}
+      {games?.results.length == 0 && !isLoading && (
         <Text fontSize="2xl" fontWeight="bold" paddingTop="15rem">
           Oopss no games found :/
         </Text>
@@ -30,8 +30,9 @@ const GameGrid = ({ gameQuery }: Props) => {
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
         spacing={10}
         padding="10px"
+        margin={3}
       >
-        {games.map((game) => (
+        {games?.results.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
       </SimpleGrid>
