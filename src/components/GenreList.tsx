@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   HStack,
   Heading,
@@ -18,7 +20,13 @@ interface Props {
 const GenreList = ({ selectedGenre, onSelectedGenre }: Props) => {
   const { data: genres, error, isLoading } = useGenres();
 
-  if (error) return null;
+  if (error)
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        {error.message}
+      </Alert>
+    );
   if (isLoading) return <Spinner />;
 
   return (

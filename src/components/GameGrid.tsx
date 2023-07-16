@@ -1,4 +1,4 @@
-import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
 import { GameQuery } from "../App";
@@ -9,6 +9,7 @@ interface Props {
 
 const GameGrid = ({ gameQuery }: Props) => {
   const { data: games, error, isLoading } = useGames(gameQuery);
+
   return (
     <div>
       {isLoading && (
@@ -20,7 +21,14 @@ const GameGrid = ({ gameQuery }: Props) => {
           size="xl"
         />
       )}
-      {error && <Text>{error.message}</Text>}
+
+      {error && (
+        <Alert status="error" justifyContent="center" textAlign="center">
+          <AlertIcon />
+          {error.message}
+        </Alert>
+      )}
+
       {games?.results.length == 0 && !isLoading && (
         <Text fontSize="2xl" fontWeight="bold" paddingTop="15rem">
           Oopss no games found :/
